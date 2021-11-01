@@ -1,5 +1,5 @@
 const {default: fetch} = require('node-fetch');
-async function postRequest(url , data) {
+async function postRequest(url, data) {
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -33,6 +33,20 @@ async function getRequest(url) {
   }
 }
 
+function hashString(string) {
+  let hash = 0;
+  let i;
+  let chr;
+
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr = this.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
 
 module.exports.postRequest = postRequest;
 module.exports.getRequest = getRequest;
+module.exports.hashString = hashString;

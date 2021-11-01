@@ -6,10 +6,8 @@ const cors = require('cors');
 dotenv.config();
 require('./db/db');
 
-const {CoinRouter} = require('./routes/Coins');
 const {UserRouter} = require('./routes/User');
-const {FundTransferRouter} = require('./routes/FundTransfer');
-const {TransactionRouter} = require('./routes/Transaction');
+const {checkAuth} = require('./controller/User');
 
 const port = process.env.PORT;
 
@@ -21,14 +19,23 @@ app.use(bodyParser.urlencoded({extended: false}));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.use(async (req, res, next) => {
+  if (req.path !== '/users/login') {
+    try {
+      await checkAuth();
+    } catch (e) {
+      console.error('index::', e);
+      res.status(500).json({msg: e});
+    }
+  }
+  next();
 });
 
-app.use('/coins', CoinRouter);
+app.get('/', (req, res) => {
+  res.send('Created by superRaptor911');
+});
+
 app.use('/users', UserRouter);
-app.use('/fund', FundTransferRouter);
-app.use('/transaction', TransactionRouter);
 
 app.listen(port, () => {
   console.log(`app listening at port ${port}`);
