@@ -39,7 +39,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/users', UserRouter);
-app.use('/transaction', TransactionRouter);
+app.use('/transactions', TransactionRouter);
 
 app.listen(port, () => {
   console.log(`app listening at port ${port}`);

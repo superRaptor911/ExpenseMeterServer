@@ -24,7 +24,7 @@ async function addTrasactions(req, res) {
     doc.amount = amount;
     doc.category = category;
     await doc.save();
-    res.status(200).json({status: true, message: 'GG'});
+    res.status(200).json({status: true, data: doc});
   } catch (e) {
     console.error('Transactions::Error in addTrasactions, ', e);
     res.status(500).json({status: false, message: 'Error'});
