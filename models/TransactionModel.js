@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const transModel = new mongoose.Schema({
   username: String,
+  title: String,
   transType: String,
   note: String,
   date: Date,

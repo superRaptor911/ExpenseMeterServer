@@ -51,7 +51,7 @@ async function registerUser(req, res) {
     doc.password = hashString(password);
     await doc.save();
 
-    res.status(200).json({status: true, message: 'GG'});
+    res.status(200).json({status: true, message: 'Registered ' + name});
   } catch (e) {
     console.error('User::LoginUser failed!, ', e);
     res.status(500).json({status: false, message: 'Error'});

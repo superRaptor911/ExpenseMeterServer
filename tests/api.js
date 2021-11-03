@@ -5,14 +5,6 @@ const {default: fetch} = require('node-fetch');
 // const server = 'https://raptor-trading.herokuapp.com';
 const server = 'http://localhost:8080';
 
-function checkStatus(data) {
-  if (data && data.status) {
-    return;
-  }
-
-  throw 'Error in request';
-}
-
 async function loginUser(name, password) {
   try {
     const response = await postRequest(server + '/users/login', {
@@ -25,4 +17,35 @@ async function loginUser(name, password) {
     console.error('FundTest::addFund', e);
   }
 }
+
+async function addTrasaction(
+  name,
+  password,
+  title,
+  transType,
+  note,
+  date,
+  amount,
+  category,
+) {
+  try {
+    const response = await postRequest(server + '/transaction/add', {
+      name: name,
+      password: password,
+      title: title,
+      transType: transType,
+      note: note,
+      date: date,
+      amount: amount,
+      category: category,
+    });
+
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.error('FundTest::addTrasactions', e);
+  }
+}
+
 module.exports.testLoginUser = loginUser;
+module.exports.testAddTransaction = addTrasaction;

@@ -8,6 +8,7 @@ require('./db/db');
 
 const {UserRouter} = require('./routes/User');
 const {checkAuth} = require('./controller/User');
+const {TransactionRouter} = require('./routes/Transactions');
 
 const port = process.env.PORT;
 
@@ -22,20 +23,23 @@ app.use(bodyParser.json());
 app.use(async (req, res, next) => {
   if (req.path !== '/users/login') {
     try {
-      await checkAuth();
+      await checkAuth(req);
+      next();
     } catch (e) {
       console.error('index::', e);
       res.status(500).json({msg: e});
     }
+  } else {
+    next();
   }
-  next();
 });
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('Created by superRaptor911');
 });
 
 app.use('/users', UserRouter);
+app.use('/transaction', TransactionRouter);
 
 app.listen(port, () => {
   console.log(`app listening at port ${port}`);
