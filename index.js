@@ -9,6 +9,7 @@ require('./db/db');
 const {UserRouter} = require('./routes/User');
 const {checkAuth} = require('./controller/User');
 const {TransactionRouter} = require('./routes/Transactions');
+const {CategoryRouter} = require('./routes/Category');
 
 const port = process.env.PORT;
 
@@ -40,6 +41,7 @@ app.get('/', (_req, res) => {
 
 app.use('/users', UserRouter);
 app.use('/transactions', TransactionRouter);
+app.use('/category', CategoryRouter);
 
 app.listen(port, () => {
   console.log(`app listening at port ${port}`);
