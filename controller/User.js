@@ -26,6 +26,13 @@ async function loginUser(req, res) {
   try {
     const {name, password} = req.body;
 
+    if (name.length < 3 || password.length < 3) {
+      res
+        .status(500)
+        .json({status: false, message: 'Username or pasword is too short'});
+      return;
+    }
+
     const user = await UserModel.findOne({name: name});
     if (user) {
       const hash = hashString(password);
@@ -39,7 +46,7 @@ async function loginUser(req, res) {
     }
   } catch (e) {
     console.error('User::LoginUser failed!, ', e);
-    res.status(500).json({status: false, message: 'Error'});
+    res.status(500).json({status: false, message: e});
   }
 }
 
@@ -54,7 +61,7 @@ async function registerUser(req, res) {
     res.status(200).json({status: true, message: 'Registered ' + name});
   } catch (e) {
     console.error('User::LoginUser failed!, ', e);
-    res.status(500).json({status: false, message: 'Error'});
+    res.status(500).json({status: false, message: e});
   }
 }
 
