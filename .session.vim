@@ -8,13 +8,13 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +21 index.js
-badd +64 controller/User.js
+badd +41 index.js
+badd +32 controller/User.js
 badd +1 models/UserModel.js
 badd +48 Utility.js
 badd +1 models/TransactionModel.js
 badd +30 controller/Transactions.js
-badd +1 routes/User.js
+badd +4 routes/User.js
 badd +31 tests/api.js
 badd +3 tests/users.js
 badd +1 routes/Transactions.js
@@ -24,15 +24,14 @@ badd +39 controller/Category.js
 badd +10 routes/Category.js
 argglobal
 %argdel
-edit controller/User.js
+edit routes/Category.js
 argglobal
-balt index.js
-let s:l = 32 - ((17 * winheight(0) + 22) / 45)
+let s:l = 10 - ((9 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 32
-normal! 063|
+keepjumps 10
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0&& getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

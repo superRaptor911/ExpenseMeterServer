@@ -63,7 +63,6 @@ async function editCategory(req, res) {
 async function deleteCategory(req, res) {
   try {
     const {id} = req.body;
-
     await CategoryModel.deleteOne({_id: id});
     res.status(200).json({status: true});
   } catch (e) {
