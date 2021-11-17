@@ -39,10 +39,10 @@ async function loginUser(req, res) {
       if (hash === user.password) {
         res.status(200).json({status: true, message: 'GG'});
       } else {
-        res.status(200).json({status: false, message: 'WRONG PASSWORD'});
+        res.status(500).json({status: false, message: 'WRONG PASSWORD'});
       }
     } else {
-      registerUser(req, res);
+      res.status(500).json({status: false, message: 'User not found'});
     }
   } catch (e) {
     console.error('User::LoginUser failed!, ', e);
@@ -53,11 +53,16 @@ async function loginUser(req, res) {
 async function registerUser(req, res) {
   try {
     const {name, password} = req.body;
+    const user = await UserModel.findOne({name: name});
+    if (user) {
+      res.status(500).json({status: false, message: 'Username not available'});
+      return;
+    }
+
     const doc = new UserModel();
     doc.name = name;
     doc.password = hashString(password);
     await doc.save();
-
     res.status(200).json({status: true, message: 'Registered ' + name});
   } catch (e) {
     console.error('User::LoginUser failed!, ', e);
@@ -66,4 +71,5 @@ async function registerUser(req, res) {
 }
 
 module.exports.loginUser = loginUser;
+module.exports.registerUser = registerUser;
 module.exports.checkAuth = checkAuth;
