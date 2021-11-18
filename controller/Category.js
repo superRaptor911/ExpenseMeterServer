@@ -1,8 +1,11 @@
 const CategoryModel = require('../models/Categorymodel');
 
-async function listCategories(_req, res) {
+async function listCategories(req, res) {
   try {
-    const categories = await CategoryModel.find({});
+    const {name} = req.body;
+    const categories = await CategoryModel.find({
+      $or: [{username: name}, {username: 'def'}],
+    });
     res.status(200).json({status: true, data: categories});
   } catch (e) {
     /* handle error */
@@ -13,10 +16,18 @@ async function listCategories(_req, res) {
 
 async function addCategory(req, res) {
   try {
-    const {title, color, description, dailyLimit, weeklyLimit, monthlyLimit} =
-      req.body;
+    const {
+      name,
+      title,
+      color,
+      description,
+      dailyLimit,
+      weeklyLimit,
+      monthlyLimit,
+    } = req.body;
 
     const doc = new CategoryModel();
+    doc.username = name;
     doc.title = title;
     doc.color = color;
     doc.description = description;
@@ -36,6 +47,7 @@ async function editCategory(req, res) {
   try {
     const {
       id,
+      name,
       title,
       color,
       description,
@@ -44,7 +56,8 @@ async function editCategory(req, res) {
       monthlyLimit,
     } = req.body;
 
-    const doc = await CategoryModel.findOne({_id: id});
+    const doc = await CategoryModel.findOne({_id: id, username: name});
+
     doc.title = title;
     doc.color = color;
     doc.description = description;
@@ -62,8 +75,8 @@ async function editCategory(req, res) {
 
 async function deleteCategory(req, res) {
   try {
-    const {id} = req.body;
-    await CategoryModel.deleteOne({_id: id});
+    const {id, name} = req.body;
+    await CategoryModel.deleteOne({_id: id, username: name});
     res.status(200).json({status: true});
   } catch (e) {
     /* handle error */

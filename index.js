@@ -22,13 +22,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(async (req, res, next) => {
-  if (req.path !== '/users/login') {
+  if (req.path !== '/users/login' && req.path !== '/users/register') {
     try {
       await checkAuth(req);
       next();
     } catch (e) {
       console.error('index::', e);
-      res.status(500).json({msg: e});
+      res.status(500).json({status: false, message: e});
     }
   } else {
     next();
