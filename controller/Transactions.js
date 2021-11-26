@@ -3,6 +3,7 @@ const TransactionModel = require('../models/TransactionModel');
 async function listTransaction(req, res) {
   try {
     const {name} = req.body;
+    // Sort by date, latest first
     const trans = await TransactionModel.find({username: name}).sort({
       date: -1,
     });
