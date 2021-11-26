@@ -4,7 +4,7 @@ async function listCategories(req, res) {
   try {
     const {name} = req.body;
     const categories = await CategoryModel.find({
-      $or: [{username: name}, {username: 'def'}],
+      $or: [{username: name}, {username: undefined}],
     });
     res.status(200).json({status: true, data: categories});
   } catch (e) {

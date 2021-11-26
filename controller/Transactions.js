@@ -3,7 +3,9 @@ const TransactionModel = require('../models/TransactionModel');
 async function listTransaction(req, res) {
   try {
     const {name} = req.body;
-    const trans = await TransactionModel.find({username: name});
+    const trans = await TransactionModel.find({username: name}).sort({
+      date: -1,
+    });
     res.status(200).json({status: true, data: trans});
   } catch (e) {
     console.error('Transactions::Error in addTrasactions, ', e);
